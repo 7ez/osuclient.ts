@@ -43,8 +43,8 @@ async function main(): Promise<void> {
         const packet = new PacketWriter()
             .write_str("")
             .write_str("!help") // content
-            .write_str("RealistikBot") // sender
-            .write_u32(999) // sender_id
+            .write_str("RealistikBot") // recipient
+            .write_u32(client.user_id) // sender_id
             .finish(PacketID.OSU_SEND_PRIVATE_MESSAGE)
 
         client.enqueue(packet);
