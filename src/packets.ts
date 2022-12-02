@@ -1,6 +1,6 @@
+import struct from './struct'
 import { PacketID } from './constants'
 
-const struct = require("./struct")
 const textEncoder = new TextEncoder()
 const textDecoder = new TextDecoder()
 
