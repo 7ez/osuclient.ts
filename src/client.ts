@@ -1,7 +1,7 @@
 import superagent from 'superagent'
 import util from 'node:util'
 import { getRandomNumber, getRandomMD5, getRandomAdapters, getMD5 } from './helpers'
-import { PacketContext, Concat } from './packets'
+import { PacketContext, Concat, PacketWriter } from './packets'
 import { PacketID } from './constants'
 
 class OsuVersion {
@@ -101,7 +101,7 @@ class BanchoSession {
       .buffer(true)
       .parse(superagent.parse.image)
 
-    if (response.statusCode !== 200) throw new Error(`Bancho responded with status code ${response.statusCode}.\n(expected 200)`)
+    if (response.statusCode !== 200) { throw new Error(`Bancho responded with status code ${response.statusCode}.\n(expected 200)`) }
 
     if ((token ??= response.headers.get('osu-token')) !== null && token !== '' && token !== 'no') this.token = token
     else throw new Error('Bancho rejected the request.')
@@ -129,6 +129,10 @@ class BanchoClient {
     this.version = version
     this.responseHandler = responseHandler
     this.queue = new Uint8Array()
+  }
+
+  connected (): boolean {
+    return this.session !== null || this.session?.token !== null || this.user_id > 0
   }
 
   __handle_response (response: Uint8Array): void {
@@ -167,7 +171,7 @@ class BanchoClient {
     )
 
     const response = await superagent
-      .post(this.server?.bancho as string)
+      .post(this.server?.bancho)
       .send(body)
       .set('User-Agent', 'osu!')
       .buffer(true)
@@ -180,10 +184,10 @@ class BanchoClient {
 
     this.__handle_response(packets)
 
-    if (this.user_id > 0) this.session = new BanchoSession(token, this.server?.bancho as string)
+    if (this.user_id > 0) this.session = new BanchoSession(token, this.server?.bancho)
     else return false
 
-    return true
+    return this.connected()
   }
 
   enqueue (packet: Uint8Array): void {
@@ -191,12 +195,21 @@ class BanchoClient {
   }
 
   async sendAll (): Promise<void> {
-    if (this.session == null) throw new Error('You must be connected to Bancho to send packets.')
+    if (!this.connected()) throw new Error('You must be connected to Bancho to send packets.')
 
     const resp = await this.session.send(this.queue)
 
     this.queue = new Uint8Array()
     this.__handle_response(resp)
+  }
+
+  async logout (): Promise<void> {
+    if (!this.connected()) throw new Error('You must be connected to Bancho in order to logout.')
+
+    await this.session.send(new PacketWriter().finish(PacketID.OSU_LOGOUT))
+    this.session = null
+    this.user_id = 0
+    this.username = ''
   }
 }
 
