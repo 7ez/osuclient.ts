@@ -49,6 +49,7 @@ async function main(): Promise<void> {
 
         client.enqueue(packet);
         await client.sendAll();
+        await client.logout();
     } else {
         console.log("Failed to connect.");
     }
