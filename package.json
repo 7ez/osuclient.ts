@@ -1,8 +1,8 @@
 {
   "name": "osuclient",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A client for communicating to a osu!Bancho server.",
-  "main": "index.ts",
+  "main": "lib/index.js",
   "scripts": {
     "test": "npx tsx ./src/test.ts",
     "build": "tsc",
