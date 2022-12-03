@@ -134,7 +134,7 @@ class BanchoClient {
   }
 
   connected (): boolean {
-    return this.session !== null || this.session?.token !== null || this.user_id > 0
+    return this.session !== null && this.session?.token !== null && this.user_id > 0
   }
 
   __handle_response (response: Uint8Array): void {
