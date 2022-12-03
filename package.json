@@ -1,6 +1,6 @@
 {
   "name": "osuclient",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A client for communicating to a osu!Bancho server.",
   "main": "lib/index.js",
   "scripts": {
