@@ -103,7 +103,7 @@ class BanchoSession {
 
     if (response.statusCode !== 200) throw new Error(`Bancho responded with status code ${response.statusCode}.\n(expected 200)`)
 
-    token = response.headers['osu-token']
+    token = response.headers['cho-token']
 
     if (token === undefined || token === null || token === '') throw new Error('Bancho rejected the request.')
     else this.token = token
