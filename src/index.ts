@@ -1,9 +1,13 @@
-const client = require('./client') // i have no idea how to use import with this lol
-const constants = require('./constants')
-const packets = require('./packets')
+import { PacketContext, PacketWriter } from "./packets"
+import { TargetServer, HWIDInfo, OsuVersion, BanchoClient } from "./client"
+import { PacketID } from "./constants"
 
-module.exports = {
-  client,
-  constants,
-  packets
+export { 
+  PacketContext,
+  PacketWriter,
+  TargetServer,
+  HWIDInfo,
+  OsuVersion,
+  BanchoClient,
+  PacketID
 }
