@@ -102,7 +102,7 @@ class BanchoSession {
       .parse(superagent.parse.image)
 
     if (response.statusCode !== 200) throw new Error(`Bancho responded with status code ${response.statusCode}.\n(expected 200)`)
-    
+
     token = response.headers['osu-token']
 
     if (token === undefined || token === null || token === '') throw new Error('Bancho rejected the request.')
@@ -158,8 +158,8 @@ class BanchoClient {
     this.username = username
     this.server = server === null ? this.server : server
 
-    if (this.server === null) throw new Error("You need to provide a server to connect to.")
-    if (this.connected()) throw new Error("You need to logout before attempting to connect.")
+    if (this.server === null) throw new Error('You need to provide a server to connect to.')
+    if (this.connected()) throw new Error('You need to logout before attempting to connect.')
 
     const passwordMd5 = pwMd5 ? password : getMD5(password)
     const body = util.format(

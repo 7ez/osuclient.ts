@@ -1,8 +1,8 @@
-import { PacketContext, PacketWriter } from "./packets"
-import { TargetServer, HWIDInfo, OsuVersion, BanchoClient } from "./client"
-import { PacketID } from "./constants"
+import { PacketContext, PacketWriter } from './packets'
+import { TargetServer, HWIDInfo, OsuVersion, BanchoClient } from './client'
+import { PacketID } from './constants'
 
-export { 
+export {
   PacketContext,
   PacketWriter,
   TargetServer,
