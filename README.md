@@ -3,7 +3,7 @@
 Example:
 ```ts
 import { TargetServer, HWIDInfo, OsuVersion, BanchoClient } from "osuclient";
-import { PacketContext, PacketWriter, PacketContext } from "osuclient";
+import { PacketContext, PacketWriter, PacketID } from "osuclient";
 
 // Arguments (in order):
 // The server base URL
