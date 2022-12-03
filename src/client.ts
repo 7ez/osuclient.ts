@@ -101,10 +101,12 @@ class BanchoSession {
       .buffer(true)
       .parse(superagent.parse.image)
 
-    if (response.statusCode !== 200) { throw new Error(`Bancho responded with status code ${response.statusCode}.\n(expected 200)`) }
+    if (response.statusCode !== 200) throw new Error(`Bancho responded with status code ${response.statusCode}.\n(expected 200)`)
+    
+    token = response.headers['osu-token']
 
-    if ((token ??= response.headers.get('osu-token')) !== null && token !== '' && token !== 'no') this.token = token
-    else throw new Error('Bancho rejected the request.')
+    if (token === undefined || token === null || token === '') throw new Error('Bancho rejected the request.')
+    else this.token = token
 
     return new Uint8Array(Buffer.from(response.body))
   }
