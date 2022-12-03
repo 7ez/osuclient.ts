@@ -47,7 +47,7 @@ async function main(): Promise<void> {
             .finish(PacketID.OSU_SEND_PRIVATE_MESSAGE)
 
         client.enqueue(packet);
-        await client.sendAll();
+        await client.dequeue();
         await client.logout();
     } else {
         console.log("Failed to connect.");
