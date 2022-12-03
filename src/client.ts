@@ -158,6 +158,9 @@ class BanchoClient {
     this.username = username
     this.server = server === null ? this.server : server
 
+    if (this.server === null) throw new Error("You need to provide a server to connect to.")
+    if (this.connected()) throw new Error("You need to logout before attempting to connect.")
+
     const passwordMd5 = pwMd5 ? password : getMD5(password)
     const body = util.format(
       '%s\n%s\n%s|%s|0|%s:%s:%s:%s:%s|1',
@@ -196,7 +199,7 @@ class BanchoClient {
     this.queue = Concat(this.queue, packet)
   }
 
-  async sendAll (): Promise<void> {
+  async dequeue (): Promise<void> {
     if (!this.connected()) throw new Error('You must be connected to Bancho to send packets.')
 
     const resp = await this.session.send(this.queue)

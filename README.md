@@ -2,9 +2,8 @@
 
 Example:
 ```ts
-import { BanchoClient, TargetServer, HWIDInfo, OsuVersion } from "./client";
-import { PacketContext, PacketWriter } from "./packets"; 
-import { PacketID } from "./constants";
+import { TargetServer, HWIDInfo, OsuVersion, BanchoClient } from "osuclient";
+import { PacketContext, PacketWriter, PacketContext } from "osuclient";
 
 // Arguments (in order):
 // The server base URL
