@@ -196,6 +196,7 @@ class PacketReader {
 
     const length = this.read_uleb128()
     const str = textDecoder.decode(this._buffer.slice(this._position, this._position + length))
+    this.skip(length);
 
     return str
   }
