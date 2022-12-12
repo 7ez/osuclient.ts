@@ -40,11 +40,11 @@ async function main(): Promise<void> {
         console.log(`Signed in as: ${client.username} (User ID: ${client.user_id})`);
 
         const packet = new PacketWriter()
-            .write_str("")
+            .write_str(client.username)
             .write_str("!help") // content
             .write_str("RealistikBot") // recipient
             .write_u32(client.user_id) // sender_id
-            .finish(PacketID.OSU_SEND_PRIVATE_MESSAGE)
+            .finish(PacketID.OSU_SEND_PRIVATE_MESSAGE);
 
         client.enqueue(packet);
         await client.dequeue();
