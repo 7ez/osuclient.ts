@@ -89,13 +89,14 @@ class BanchoSession {
     this.url = url
   }
 
-  async send (packet: Uint8Array): Promise<Uint8Array> {
+  async send (packets: Uint8Array): Promise<Uint8Array> {
     let token: string = ''
     if (this.token === 'no' || this.token === null) throw new Error('No bancho session token provided.')
 
     const response = await superagent
       .post(this.url)
-      .send(packet)
+      .send(Buffer.from(packets))
+      .set('Content-Type', 'application/octet-stream')
       .set('osu-token', this.token)
       .set('User-Agent', 'osu!')
       .buffer(true)
