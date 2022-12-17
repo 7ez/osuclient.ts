@@ -223,6 +223,7 @@ class BanchoClient {
 
   async dequeue (): Promise<void> {
     if (!this.connected()) throw new Error('You must be connected to Bancho to send packets.')
+    if (this.queue.length === 0) this.enqueue(new PacketWriter().finish(PacketID.OSU_HEARTBEAT))
 
     const resp = await this.session.send(this.queue)
 
