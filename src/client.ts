@@ -9,6 +9,7 @@ class OsuVersion {
   month: number
   day: number
   stream: string | null = null
+  verString: string | null = null
 
   constructor (year: number, month: number, day: number, stream: string | null = null) {
     this.year = year
@@ -17,7 +18,26 @@ class OsuVersion {
     this.stream = stream
   }
 
+  static fromString (version: string, parseVer: boolean = true): OsuVersion {
+    if (parseVer) {
+      version = version.slice(1) // remove b
+      const year = parseInt(version.slice(1, 5)) // ex. 2021
+      const month = parseInt(version.slice(5, 7)) // ex. 01
+      const day = parseInt(version.slice(7, 9)) // ex. 01
+      const stream = version.slice(9) ?? null // ex. cuttinedge
+
+      return new OsuVersion(year, month, day, stream)
+    }
+
+    const ver = new OsuVersion(0, 0, 0)
+
+    ver.verString = version
+    return ver
+  }
+
   toString (): string {
+    if (this.verString !== null) return this.verString
+
     const suffix = this.stream ?? ''
     return `b${this.year}${this.month}${this.day}${suffix}`
   }
@@ -72,7 +92,7 @@ class TargetServer {
     this.osu = osu
   }
 
-  static from_base_url (baseURL: string, https: boolean = false): TargetServer {
+  static from_base_url (baseURL: string, https: boolean = true): TargetServer {
     const prefix = https ? 'https://' : 'http://'
     const format = `${prefix}%s.${baseURL}/`
 
@@ -135,6 +155,7 @@ class BanchoClient {
   }
 
   connected (): boolean {
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     return this.session !== null && this.session?.token !== null && this.user_id > 0
   }
 
