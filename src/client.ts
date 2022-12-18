@@ -1,5 +1,4 @@
 import superagent from 'superagent'
-import util from 'node:util'
 import { getRandomNumber, getRandomMD5, getRandomAdapters, getMD5 } from './helpers'
 import { PacketContext, Concat, PacketWriter } from './packets'
 import { PacketID } from './constants'
@@ -92,11 +91,14 @@ class TargetServer {
     this.osu = osu
   }
 
-  static from_base_url (baseURL: string, https: boolean = true): TargetServer {
-    const prefix = https ? 'https://' : 'http://'
-    const format = `${prefix}%s.${baseURL}/`
+  static from_base_url (baseURL: string, http: boolean = false): TargetServer {
+    const prefix = http ? 'http://' : 'https://'
 
-    return new TargetServer(util.format(format, 'c'), util.format(format, 'a'), util.format(format, 'osu'))
+    return new TargetServer(
+      `${prefix}c.${baseURL}/`,
+      `${prefix}a.${baseURL}/`,
+      `${prefix}osu.${baseURL}/`
+    )
   }
 }
 
@@ -184,18 +186,15 @@ class BanchoClient {
     if (this.connected()) throw new Error('You need to logout before attempting to connect.')
 
     const passwordMd5 = pwMd5 ? password : getMD5(password)
-    const body = util.format(
-      '%s\n%s\n%s|%s|0|%s:%s:%s:%s:%s|1',
-      this.username,
-      passwordMd5,
-      this.version.toString(),
-      this.hwid.utcOffset.toString(),
-      this.hwid.pathMd5,
-      this.hwid.adapters,
-      this.hwid.adaptersMd5,
-      this.hwid.uninstallMd5,
-      this.hwid.diskMd5
-    )
+    const body = `${this.username}\n` +
+      `${passwordMd5}\n` +
+      `${this.version.toString()}|` +
+      `${this.hwid.utcOffset}|0|` +
+      `${this.hwid.pathMd5}:` +
+      `${this.hwid.adapters}:` +
+      `${this.hwid.adaptersMd5}:` +
+      `${this.hwid.uninstallMd5}:` +
+      `${this.hwid.diskMd5}|1`
 
     const response = await superagent
       .post(this.server?.bancho)
