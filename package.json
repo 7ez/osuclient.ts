@@ -24,7 +24,8 @@
     "@types/superagent": "^4.1.16",
     "crypto-js": "^4.1.1",
     "struct": "^0.0.12",
-    "superagent": "^8.0.4"
+    "superagent": "^8.0.4",
+    "text-encoding": "^0.7.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
