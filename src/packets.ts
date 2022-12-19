@@ -1,6 +1,12 @@
 import struct from './struct'
 import { PacketID } from './constants'
 
+if (typeof TextEncoder !== 'function') {
+  const TextEncodingPolyfill = require('text-encoding');
+  TextEncoder = TextEncodingPolyfill.TextEncoder;
+  TextDecoder = TextEncodingPolyfill.TextDecoder;
+}
+
 const textEncoder = new TextEncoder()
 const textDecoder = new TextDecoder()
 
