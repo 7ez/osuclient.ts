@@ -7,7 +7,7 @@ import { PacketContext, PacketWriter, PacketID } from "osuclient";
 
 // Arguments (in order):
 // The server base URL
-// Whether to use https (boolean, optional, default is true)
+// Whether to use http (boolean, optional, default is false)
 const srv = TargetServer.from_base_url("ussr.pl");
 const hwid = HWIDInfo.generateRandom();
 // Arguments (in order):
