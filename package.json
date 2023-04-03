@@ -21,13 +21,12 @@
   },
   "homepage": "https://github.com/7ez/osuclient.ts#readme",
   "dependencies": {
-    "@types/superagent": "^4.1.16",
     "crypto-js": "^4.1.1",
-    "struct": "^0.0.12",
     "superagent": "^8.0.4"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
+    "@types/superagent": "^4.1.16",
     "@types/node": "^18.11.10",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "eslint": "^8.28.0",
